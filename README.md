@@ -119,13 +119,14 @@ The bootloader detects the `update` flag in the `system` namespace, locates the 
    - If set to `1` (default in `nvs.csv`), it scans `/sd/.bin` for `.bin` files and flashes them to the corresponding partitions.
    - If set to `0` or unset, it boots the existing firmware.
 4. The update utility initializes the SD card using the GPIO pins specified in the `sdcard_pins` key.
-5. After flashing, the bootloader resets the `update` flag in the `system` namespace to `0` and restarts the ESP32 with the updated firmware.
+5. To flash a `.bin` file for the `update` partition, use the main application to perform the update (see "File Naming and Partition Mapping" for details).
+6. After flashing, the bootloader resets the `update` flag in the `system` namespace to `0` and restarts the ESP32 with the new firmware.
 
 ## File Naming and Partition Mapping
 
 - MLFF requires the part of the `.bin` file name before the first `.` to match the target partition name as defined in your ESP32 project's partition table (see `partitions.csv` in ESP-IDF). MLFF uses the following default partition names:
   - `main`: Main firmware application.
-  - `update`: MLFF update app (requires a 384KB partition).
+  - `update`: MLFF update app (requires a 384KB partition). **Note**: Flashing a `.bin` file for the `update` partition must be done from the main application.
   - `storage`: Flash filesystem (e.g., SPIFFS or LittleFS).
 - Anything after the first `.` in the file name is ignored and can be used to specify additional information such as model, revision, date, or other identifiers.
 - Examples:
@@ -137,7 +138,7 @@ The bootloader detects the `update` flag in the `system` namespace, locates the 
 
 ## Example Workflow
 
-1. Build your firmware using ESP-IDF or Arduino IDE, generating `.bin` files like `main.v1.0.bin` and `storage.v2.0.bin`.
+1. Build your firmware using ESP-IDF or Arduino IDE, generating `.bin` files like `main.v1.0.bin`, `update.v2.0.bin`, and `storage.v2.0.bin`.
 2. Copy these files to `/sd/.bin` on the SD card.
 3. Insert the SD card into the ESP32.
 4. Ensure the NVS is configured with the default `nvs.csv` settings (or manually set the `update` flag in the `system` namespace to `1`):
@@ -158,6 +159,7 @@ The bootloader detects the `update` flag in the `system` namespace, locates the 
   - Check the SD card slot wiring and GPIO pin compatibility with your ESP32 model.
 - **Flashing Errors**:
   - Check that the `.bin` file names (before the first `.`) match the partition names (`main`, `update`, or `storage`) in your partition table.
+  - For `update` partition flashing, ensure the update is initiated from the main application.
   - Confirm the SD card is properly seated and readable by the ESP32.
 - **Device Doesn’t Boot**:
   - Re-flash the MLFF bootloader and utility using ESP-IDF.
