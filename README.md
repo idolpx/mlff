@@ -79,7 +79,7 @@ The bootloader detects the `update` flag in the `system` namespace, locates the 
 4. **Prepare the SD Card**:
 
    - Create a folder named `.bin` in the root of the SD card (`/sd/.bin`).
-   - Copy your `.bin` files (e.g., `app0.v1.0.2025.bin`, `spiffs.latest.bin`) to this folder.
+   - Copy your `.bin` files (e.g., `main.v1.0.2025.bin`, `storage.latest.bin`) to this folder.
 
 5. **Configure NVS**:
 
@@ -123,17 +123,21 @@ The bootloader detects the `update` flag in the `system` namespace, locates the 
 
 ## File Naming and Partition Mapping
 
-- MLFF requires the part of the `.bin` file name before the first `.` to match the target partition name as defined in your ESP32 project's partition table (see `partitions.csv` in ESP-IDF). Anything after the first `.` is ignored and can be used to specify additional information such as model, revision, date, or other identifiers.
+- MLFF requires the part of the `.bin` file name before the first `.` to match the target partition name as defined in your ESP32 project's partition table (see `partitions.csv` in ESP-IDF). MLFF uses the following default partition names:
+  - `main`: Main firmware application.
+  - `update`: MLFF update app (requires a 384KB partition).
+  - `storage`: Flash filesystem (e.g., SPIFFS or LittleFS).
+- Anything after the first `.` in the file name is ignored and can be used to specify additional information such as model, revision, date, or other identifiers.
 - Examples:
-  - `app0.v1.0.2025.bin`: Flashes to the `app0` partition (e.g., main application firmware).
-  - `spiffs.latest.bin`: Flashes to the `spiffs` partition (e.g., SPIFFS or LittleFS data partition).
-  - `storage.modelX.20231001.bin`: Flashes to the `storage` partition.
+  - `main.v1.0.2025.bin`: Flashes to the `main` partition (main application firmware).
+  - `update.v2.1.bin`: Flashes to the `update` partition (MLFF update app).
+  - `storage.modelX.20231001.bin`: Flashes to the `storage` partition (flash filesystem).
 - Ensure your `.bin` files align with the partition table to avoid flashing errors.
 - MLFF validates file integrity before flashing to prevent corruption.
 
 ## Example Workflow
 
-1. Build your firmware using ESP-IDF or Arduino IDE, generating `.bin` files like `app0.v1.0.bin` and `spiffs.v2.0.bin`.
+1. Build your firmware using ESP-IDF or Arduino IDE, generating `.bin` files like `main.v1.0.bin` and `storage.v2.0.bin`.
 2. Copy these files to `/sd/.bin` on the SD card.
 3. Insert the SD card into the ESP32.
 4. Ensure the NVS is configured with the default `nvs.csv` settings (or manually set the `update` flag in the `system` namespace to `1`):
@@ -153,7 +157,7 @@ The bootloader detects the `update` flag in the `system` namespace, locates the 
   - Confirm the `sdcard_pins` in the `system` namespace matches your hardware (default: `0x28262729` for GPIO 40, 38, 39, 41 for MISO, MOSI, SCK, CS).
   - Check the SD card slot wiring and GPIO pin compatibility with your ESP32 model.
 - **Flashing Errors**:
-  - Check that the `.bin` file names (before the first `.`) match the partition names in your partition table.
+  - Check that the `.bin` file names (before the first `.`) match the partition names (`main`, `update`, or `storage`) in your partition table.
   - Confirm the SD card is properly seated and readable by the ESP32.
 - **Device Doesn’t Boot**:
   - Re-flash the MLFF bootloader and utility using ESP-IDF.

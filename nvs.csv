@@ -1,0 +1,6 @@
+key,type,encoding,value
+system,namespace,,
+update,data,u8,1
+
+# freenove-esp32-s3-wroom-1
+sdcard_pins,data,hex2bin,28262729
