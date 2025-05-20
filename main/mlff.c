@@ -385,7 +385,7 @@ void app_main(void) {
     while ((entry = readdir(dir)) != NULL) {
         // Check if file ends with .bin (case-insensitive)
         const char *ext = strrchr(entry->d_name, '.');
-        if (ext && strcasecmp(ext, ".bin") == 0 && strcasecmp(entry->d_name, "update.bin") != 0) {
+        if (ext && strcasecmp(ext, ".bin") == 0 && strncasecmp(entry->d_name, "update", 6) != 0) {
             snprintf(file_path, MAX_PATH_LEN, "%s/%s", FIRMWARE_PATH, entry->d_name);
             struct stat st;
             if (stat(file_path, &st) == 0 && S_ISREG(st.st_mode)) {

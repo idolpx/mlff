@@ -1,6 +1,12 @@
-# With this option enabled, esp_timer_dump() prints more data about timers in the output log
-CONFIG_ESP_TIMER_PROFILING=y
-
-# NEWLIB_NANO_FORMAT is enabled by default on ESP32-C2
-# This example needs 64-bit integer formatting, this is why this option is disabled
-CONFIG_NEWLIB_NANO_FORMAT=n
+# This file was generated using idf.py save-defconfig. It can be edited manually.
+# Espressif IoT Development Framework (ESP-IDF) 5.5.0 Project Minimal Configuration
+#
+CONFIG_IDF_TARGET="esp32s3"
+CONFIG_BOOTLOADER_LOG_COLORS=y
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.16m.csv"
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_ESP_CONSOLE_UART_CUSTOM=y
+CONFIG_ESP_CONSOLE_UART_BAUDRATE=460800
+CONFIG_FATFS_LFN_HEAP=y
