@@ -399,7 +399,10 @@ void app_main(void) {
                     ESP_LOGE(TAG, "Failed to process '%s'", file_path);
                 }
             }
+        } else {
+            ESP_LOGI(TAG, "Skipping '%s'", file_path);
         }
+
     }
     closedir(dir);
 
