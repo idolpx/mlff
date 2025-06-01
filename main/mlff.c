@@ -381,7 +381,7 @@ void app_main(void) {
     char partition_name[MAX_NAME_LEN];
     int file_count = 0;
 
-    ESP_LOGI(TAG, "Searching for .bin files in '%s'", FIRMWARE_PATH);
+    ESP_LOGI(TAG, "Searching for '.bin' files in '%s'", FIRMWARE_PATH);
     while ((entry = readdir(dir)) != NULL) {
         // Check if file ends with .bin (case-insensitive)
         const char *ext = strrchr(entry->d_name, '.');
@@ -399,10 +399,9 @@ void app_main(void) {
                     ESP_LOGE(TAG, "Failed to process '%s'", file_path);
                 }
             }
-        } else {
-            ESP_LOGI(TAG, "Skipping '%s'", file_path);
+        } else if (strlen(entry->d_name) > 0) {
+            ESP_LOGI(TAG, "Skipping '%s'", entry->d_name);
         }
-
     }
     closedir(dir);
 
