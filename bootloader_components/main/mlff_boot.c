@@ -27,9 +27,6 @@
 #include "esp_app_desc.h"
 #include "nvs_bootloader.h"
 
-#define MAX_PARTITIONS  8
-#define LABEL_LENGTH    32
-
 static const char* TAG = "MLFF_BOOT";
 
 // Using NVS bootloader to check if update setting

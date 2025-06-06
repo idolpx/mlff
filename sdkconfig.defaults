@@ -1,8 +1,8 @@
 # This file was generated using idf.py save-defconfig. It can be edited manually.
 # Espressif IoT Development Framework (ESP-IDF) 5.5.0 Project Minimal Configuration
 #
-CONFIG_IDF_TARGET="esp32s3"
-CONFIG_BOOTLOADER_LOG_COLORS=y
+CONFIG_IDF_TARGET="esp32"
+CONFIG_BOOTLOADER_LOG_COLORS=n
 CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
 CONFIG_PARTITION_TABLE_CUSTOM=y
 CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.16m.csv"
